@@ -7,7 +7,6 @@ import com.github.jknack.handlebars.Template;
 import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
-import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -26,7 +25,6 @@ import java.util.List;
  * author: DreamYoung
  * Date: 16/4/25
  */
-@Slf4j
 @Component
 public class TemplateHelper {
 

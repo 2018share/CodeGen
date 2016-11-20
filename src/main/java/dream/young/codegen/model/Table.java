@@ -1,7 +1,5 @@
 package dream.young.codegen.model;
 
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,7 +9,6 @@ import java.util.List;
  * author: DreamYoung
  * Date: 16/4/25
  */
-@Data
 public class Table implements Serializable {
     private static final long serialVersionUID = 1486537741435478791L;
 
@@ -30,4 +27,68 @@ public class Table implements Serializable {
     private List<Field> fields;  //字段
 
     private String createSql;    //建表语句
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public String getClassLowerFirst() {
+        return classLowerFirst;
+    }
+
+    public void setClassLowerFirst(String classLowerFirst) {
+        this.classLowerFirst = classLowerFirst;
+    }
+
+    public String getParamName() {
+        return paramName;
+    }
+
+    public void setParamName(String paramName) {
+        this.paramName = paramName;
+    }
+
+    public String getParamUpperFirst() {
+        return paramUpperFirst;
+    }
+
+    public void setParamUpperFirst(String paramUpperFirst) {
+        this.paramUpperFirst = paramUpperFirst;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public List<Field> getFields() {
+        return fields;
+    }
+
+    public void setFields(List<Field> fields) {
+        this.fields = fields;
+    }
+
+    public String getCreateSql() {
+        return createSql;
+    }
+
+    public void setCreateSql(String createSql) {
+        this.createSql = createSql;
+    }
 }

@@ -1,7 +1,5 @@
 package dream.young.codegen.model;
 
-import lombok.Data;
-
 import java.io.Serializable;
 
 /**
@@ -10,7 +8,6 @@ import java.io.Serializable;
  * author: DreamYoung
  * Date: 16/4/25
  */
-@Data
 public class Field implements Serializable {
     private static final long serialVersionUID = 8103693675851022158L;
 
@@ -23,4 +20,44 @@ public class Field implements Serializable {
     private String type;        //类型: Date
 
     private String comment;     //注释: 创建时间
+
+    public String getColumn() {
+        return column;
+    }
+
+    public void setColumn(String column) {
+        this.column = column;
+    }
+
+    public String getProperty() {
+        return property;
+    }
+
+    public void setProperty(String property) {
+        this.property = property;
+    }
+
+    public String getPropertyUpperFirst() {
+        return propertyUpperFirst;
+    }
+
+    public void setPropertyUpperFirst(String propertyUpperFirst) {
+        this.propertyUpperFirst = propertyUpperFirst;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }

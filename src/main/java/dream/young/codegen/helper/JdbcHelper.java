@@ -7,8 +7,8 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import dream.young.codegen.model.Field;
 import dream.young.codegen.model.Table;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,9 +25,9 @@ import java.util.Map;
  * author: DreamYoung
  * Date: 16/4/25
  */
-@Slf4j
 @Component
 public class JdbcHelper {
+    private static final Logger log = LoggerFactory.getLogger(JdbcHelper.class);
 
     @Value("${tableNames:}")
     private String tableNames;
@@ -35,7 +35,6 @@ public class JdbcHelper {
     @Value("${projectPrefix:}")
     private String projectPrefix;
 
-    @Getter
     private List<Table> tables = Lists.newArrayList();
 
     private final JdbcTemplate jdbcTemplate;
@@ -43,6 +42,10 @@ public class JdbcHelper {
     @Autowired
     public JdbcHelper(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public List<Table> getTables() {
+        return tables;
     }
 
     @PostConstruct
