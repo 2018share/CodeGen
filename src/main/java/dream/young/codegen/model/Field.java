@@ -19,6 +19,8 @@ public class Field implements Serializable {
 
     private String type;        //类型: Date
 
+    private Integer length;     //长度：20
+
     private String comment;     //注释: 创建时间
 
     public String getColumn() {
@@ -51,6 +53,14 @@ public class Field implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Integer getLength() {
+        return length;
+    }
+
+    public void setLength(Integer length) {
+        this.length = length;
     }
 
     public String getComment() {

@@ -114,7 +114,10 @@ public class JdbcHelper {
         field.setColumn(String.valueOf(fieldMap.get("Field")));
         field.setProperty(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, field.getColumn()));
         field.setPropertyUpperFirst(CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, field.getProperty()));
-        field.setType(getJavaType(String.valueOf(fieldMap.get("Type"))));
+
+        String type = String.valueOf(fieldMap.get("Type"));
+        field.setType(getJavaType(type));
+        field.setLength(getFieldLength(type));
         field.setComment(String.valueOf(fieldMap.get("Comment")));
         return field;
     }
@@ -129,6 +132,16 @@ public class JdbcHelper {
         if (jdbcType.contains("float")) return "Float";
         if (jdbcType.contains("date") || jdbcType.contains("time") || jdbcType.contains("year")) return "Date";
         return "String";
+    }
+
+    //截取出类型中的字段长度 比如：bigint(20) -> 20
+    private static Integer getFieldLength(String type) {
+        try {
+            String length = type.substring(type.indexOf("(") + 1, type.indexOf(")"));
+            return StringUtils.hasText(length) ? Integer.valueOf(length) : null;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private List<Map<String, Object>> getFieldMap(String tableName) {
