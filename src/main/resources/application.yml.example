@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/parana?useUnicode=true&characterEncoding=UTF8&useSSL=false
+    username: root
+    password: 123456
+
+# 表名称, 逗号分隔
+tableNames: parana_users,parana_orders
+
+# 表名前缀, 比如 parana_users, parana是前缀, 选填(建议填写，可使参数名称更简洁)
+projectPrefix: parana
+
+# 包前缀，比如 io.terminus.parana.item, 用于import路径的替换，默认 io.terminus
+packagePath: io.terminus
