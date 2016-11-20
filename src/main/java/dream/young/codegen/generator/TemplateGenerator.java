@@ -9,11 +9,11 @@ import dream.young.codegen.helper.JdbcHelper;
 import dream.young.codegen.helper.TemplateHelper;
 import dream.young.codegen.model.Table;
 import dream.young.codegen.model.Templater;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.List;
