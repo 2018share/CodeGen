@@ -33,10 +33,6 @@ public class TemplateGenerator implements CommandLineRunner {
 
     private final TemplateHelper templateHelper;
 
-    public static final String BACKEND = "/hbs/backend/";
-
-    public static final String FRONTEND = "/hbs/frontend/";
-
     @Autowired
     public TemplateGenerator(JdbcHelper jdbcHelper, TemplateHelper templateHelper) {
         this.jdbcHelper = jdbcHelper;
@@ -45,34 +41,38 @@ public class TemplateGenerator implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Template mapper = templateHelper.compile(backPath("Mapper"));
-        Template java = templateHelper.compile(backPath("Model"));
-        Template dao = templateHelper.compile(backPath("Dao"));
-        Template readService = templateHelper.compile(backPath("ReadService"));
-        Template readImpl = templateHelper.compile(backPath("ReadImpl"));
-        Template writeService = templateHelper.compile(backPath("WriteService"));
-        Template writeImpl = templateHelper.compile(backPath("WriteImpl"));
-        Template controller = templateHelper.compile(backPath("Controller"));
+        //backend service template
+        Template mapper = templateHelper.compile(hbsBackPath("Mapper"));
+        Template java = templateHelper.compile(hbsBackPath("Model"));
+        Template dao = templateHelper.compile(hbsBackPath("Dao"));
+        Template readService = templateHelper.compile(hbsBackPath("ReadService"));
+        Template readImpl = templateHelper.compile(hbsBackPath("ReadImpl"));
+        Template writeService = templateHelper.compile(hbsBackPath("WriteService"));
+        Template writeImpl = templateHelper.compile(hbsBackPath("WriteImpl"));
+        Template controller = templateHelper.compile(hbsBackPath("Controller"));
 
-        Template testDao = templateHelper.compile(backPath("test-Dao"));
-        Template testService = templateHelper.compile(backPath("test-Service"));
-        Template testBaseWeb = templateHelper.compile(backPath("test-BaseWeb"));
-        Template testController = templateHelper.compile(backPath("test-Controller"));
+        //backend unit test template
+        Template testDao = templateHelper.compile(hbsBackPath("test-Dao"));
+        Template testService = templateHelper.compile(hbsBackPath("test-Service"));
+        Template testBaseWeb = templateHelper.compile(hbsBackPath("test-BaseWeb"));
+        Template testController = templateHelper.compile(hbsBackPath("test-Controller"));
+
+        // TODO: 2016/11/20 frontend  template
 
         for (Table table : jdbcHelper.getTables()) {
             generateTemplate(Lists.newArrayList(
-                    new Templater(testController, table.getClassName() + "sTest.java"),
-                    new Templater(testBaseWeb, "BaseWebTest.java"),
-                    new Templater(testService, table.getClassName() + "ServiceTest.java"),
-                    new Templater(testDao, table.getClassName() + "DaoTest.java"),
-                    new Templater(mapper, table.getClassLowerFirst() + "Mapper.xml"),
-                    new Templater(java, table.getClassName() + ".java"),
-                    new Templater(dao, table.getClassName() + "Dao.java"),
-                    new Templater(readService, table.getClassName() + "ReadService.java"),
-                    new Templater(readImpl, table.getClassName() + "ReadServiceImpl.java"),
-                    new Templater(writeService, table.getClassName() + "WriteService.java"),
-                    new Templater(writeImpl, table.getClassName() + "WriteServiceImpl.java"),
-                    new Templater(controller, table.getClassName() + "s.java")
+                    new Templater(testController, tableTestBackBath(table, table.getClassName() + "sTest.java")),
+                    new Templater(testBaseWeb, tableTestBackBath(table, "BaseWebTest.java")),
+                    new Templater(testService, tableTestBackBath(table, table.getClassName() + "ServiceTest.java")),
+                    new Templater(testDao,tableTestBackBath(table,  table.getClassName() + "DaoTest.java")),
+                    new Templater(mapper, tableBackBath(table, table.getClassLowerFirst() + "Mapper.xml")),
+                    new Templater(java, tableBackBath(table, table.getClassName() + ".java")),
+                    new Templater(dao, tableBackBath(table, table.getClassName() + "Dao.java")),
+                    new Templater(readService, tableBackBath(table, table.getClassName() + "ReadService.java")),
+                    new Templater(readImpl, tableBackBath(table, table.getClassName() + "ReadServiceImpl.java")),
+                    new Templater(writeService, tableBackBath(table, table.getClassName() + "WriteService.java")),
+                    new Templater(writeImpl, tableBackBath(table, table.getClassName() + "WriteServiceImpl.java")),
+                    new Templater(controller, tableBackBath(table, table.getClassName() + "s.java"))
             ), table);
         }
     }
@@ -80,18 +80,32 @@ public class TemplateGenerator implements CommandLineRunner {
     private void generateTemplate(List<Templater> templaters, Table table) {
         try {
             for (Templater templater : templaters) {
-                Files.write(templater.getTemplate().apply(table), new File(templater.getFileName()), Charsets.UTF_8);
+                File file = new File(templater.getFileName());
+                Files.createParentDirs(file);
+                Files.write(templater.getTemplate().apply(table), file, Charsets.UTF_8);
             }
         } catch (Exception e) {
             log.error("generate template failed, table:{}, cause:{}", table, Throwables.getStackTraceAsString(e));
         }
     }
 
-    private static String backPath(String path) {
-        return BACKEND + path;
+    private static String hbsBackPath(String path) {
+        return "/hbs/backend/" + path;
     }
 
-    private static String frontPath(String path) {
-        return FRONTEND + path;
+    private static String hbsFrontPath(String path) {
+        return "/hbs/frontend/" + path;
+    }
+
+    private static String tableBackBath(Table table, String fileName) {
+        return table.getTableName() + "/backend/" + fileName;
+    }
+
+    private static String tableTestBackBath(Table table, String fileName) {
+        return table.getTableName() + "/backend/test/" + fileName;
+    }
+
+    private static String tableFrontBath(Table table, String fileName) {
+        return table.getTableName() + "/frontend/" + fileName;
     }
 }
