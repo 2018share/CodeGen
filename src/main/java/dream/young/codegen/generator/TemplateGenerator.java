@@ -52,6 +52,7 @@ public class TemplateGenerator implements CommandLineRunner {
         Template controller = templateHelper.compile(hbsBackPath("Controller"));
 
         //backend unit test template
+        Template testSchema = templateHelper.compile(hbsBackPath("test-schema"));
         Template testDao = templateHelper.compile(hbsBackPath("test-Dao"));
         Template testService = templateHelper.compile(hbsBackPath("test-Service"));
         Template testBaseWeb = templateHelper.compile(hbsBackPath("test-BaseWeb"));
@@ -65,6 +66,7 @@ public class TemplateGenerator implements CommandLineRunner {
                     new Templater(testBaseWeb, tableTestBackBath(table, "BaseWebTest.java")),
                     new Templater(testService, tableTestBackBath(table, table.getClassName() + "ServiceTest.java")),
                     new Templater(testDao,tableTestBackBath(table,  table.getClassName() + "DaoTest.java")),
+                    new Templater(testSchema,tableTestBackBath(table, "schema.sql")),
                     new Templater(mapper, tableBackBath(table, table.getClassLowerFirst() + "Mapper.xml")),
                     new Templater(java, tableBackBath(table, table.getClassName() + ".java")),
                     new Templater(dao, tableBackBath(table, table.getClassName() + "Dao.java")),
