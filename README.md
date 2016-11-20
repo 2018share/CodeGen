@@ -12,8 +12,8 @@
     mvn spring-boot:run
     ```
    
-    会在根目录目录生成对应的前后端文件
+    会在根目录生成对应的前后端文件
     
 **注意:**
  
- * 生成的Model需要自行修改package路径并生成 serialVersionUID !
+ * 生成的Model需要自行生成 serialVersionUID !
