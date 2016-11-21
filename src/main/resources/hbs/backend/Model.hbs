@@ -1,4 +1,4 @@
-package io.terminus.tools.jdbccodegen.model;
+package {{packagePath}}.model;
 
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import java.util.Date;
  */
 @Data
 public class {{className}} implements Serializable {
-    //TODO: Do not forget add "serialVersionUID" field AND change package path!
+    //TODO: Do not forget add "serialVersionUID" field!
 
     private Long id;{{#each fields}}
     {{#notEmpty comment}}
