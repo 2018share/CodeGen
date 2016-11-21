@@ -50,6 +50,7 @@ public class TemplateGenerator implements CommandLineRunner {
         Template writeService = templateHelper.compile(hbsBackPath("WriteService"));
         Template writeImpl = templateHelper.compile(hbsBackPath("WriteImpl"));
         Template controller = templateHelper.compile(hbsBackPath("Controller"));
+        Template messages = templateHelper.compile(hbsBackPath("messages_zh_CN"));
 
         //backend unit test template
         Template testSchema = templateHelper.compile(hbsBackPath("test-schema"));
@@ -62,6 +63,7 @@ public class TemplateGenerator implements CommandLineRunner {
 
         for (Table table : jdbcHelper.getTables()) {
             generateTemplate(Lists.newArrayList(
+                    new Templater(messages, tableBackBath(table, "messages_zh_CN.properties")),
                     new Templater(testController, tableTestBackBath(table, table.getClassName() + "sTest.java")),
                     new Templater(testBaseWeb, tableTestBackBath(table, "BaseWebTest.java")),
                     new Templater(testService, tableTestBackBath(table, table.getClassName() + "ServiceTest.java")),

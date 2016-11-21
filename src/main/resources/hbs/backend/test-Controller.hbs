@@ -61,8 +61,8 @@ public class {{className}}Test extends BaseWebTest {
 
     @Test
     public void testDelete{{paramUpperFirst}}ById() {
-        String url = "/api/{{paramName}}";
-        delete(url, ImmutableMap.of("{{paramName}}Id", {{paramName}}.getId()));
+        String url = "/api/{{paramName}}/delete";
+        postFormForEntity(url, ImmutableMap.of("{{paramName}}Id", {{paramName}}.getId(), Boolean.class);
 
         {{className}} delete{{paramUpperFirst}} = find{{paramUpperFirst}}ById({{paramName}}.getId());
         assertNull(delete{{paramUpperFirst}});

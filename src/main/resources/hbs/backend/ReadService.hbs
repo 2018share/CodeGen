@@ -4,6 +4,7 @@ import io.terminus.common.model.Paging;
 import io.terminus.common.model.Response;
 import {{packagePath}}.model.{{className}};
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public interface {{className}}ReadService {
      * @param {{paramName}}Id 主键id
      * @return {{comment}}
      */
-    Response<{{className}}> find{{paramUpperFirst}}ById(Long {{paramName}}Id);
+    Response<{{className}}> find{{paramUpperFirst}}ById(@NotNull(message = "{{paramName}}Id.not.null") Long {{paramName}}Id);
 
     /**
      * 查询所有{{comment}}

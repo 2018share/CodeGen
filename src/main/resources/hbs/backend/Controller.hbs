@@ -65,7 +65,7 @@ public class {{className}}s {
      * 根据主键id删除{{className}}
      * @return 是否成功
      */
-    @RequestMapping(value = "/{{paramName}}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{{paramName}}/delete", method = RequestMethod.POST)
     public Boolean delete{{paramUpperFirst}}(@RequestParam("{{paramName}}Id") Long {{paramName}}Id) {
         return RespHelper.or500({{classLowerFirst}}WriteService.delete{{paramUpperFirst}}ById({{paramName}}Id));
     }
