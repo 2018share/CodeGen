@@ -31,6 +31,9 @@ public class TemplateHelper {
     @Value("${packagePath:io.terminus}")
     private String packagePath;
 
+    @Value("${bundle:terminus}")
+    private String bundle;
+
     private final Handlebars handlebars = new Handlebars();
 
     private static final DateTimeFormatter DTF = DateTimeFormat.forPattern("yyyy-MM-dd");
@@ -47,6 +50,12 @@ public class TemplateHelper {
             @Override
             public CharSequence apply(Object o, Options options) throws IOException {
                 return packagePath;
+            }
+        });
+        handlebars.registerHelper("bundle", new Helper<Object>() {
+            @Override
+            public CharSequence apply(Object o, Options options) throws IOException {
+                return bundle;
             }
         });
 
@@ -68,6 +77,21 @@ public class TemplateHelper {
             @Override
             public CharSequence apply(Object o, Options options) throws IOException {
                 return o == null ? "" : "#{item." + o + "}";
+            }
+        });
+
+        //解决 {{ }} 会被handlebars识别的问题
+        handlebars.registerHelper("left", new Helper<Object>() {
+            @Override
+            public CharSequence apply(Object o, Options options) throws IOException {
+                return "{{";
+            }
+        });
+
+        handlebars.registerHelper("right", new Helper<Object>() {
+            @Override
+            public CharSequence apply(Object o, Options options) throws IOException {
+                return "}}";
             }
         });
 

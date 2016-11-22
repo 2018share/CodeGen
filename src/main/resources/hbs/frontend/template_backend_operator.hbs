@@ -1,0 +1,36 @@
+<div class="data-operator block">
+  <form class="form form-aligned date-create-form">
+    <fieldset>
+      {{#each fields}}{{#of property "createdAt,updatedAt"}}{{else}}<span class="control-group">
+        <label for="{{property}}">{{left}}i18n "{{propertyUpperFirst}}" bundle="{{bundle}}"{{right}}</label>
+        <input class="js-need-validated" type="text" name="{{property}}"  placeholder="请输入{{comment}}" pattern="^.{1,7}$">
+      </span>{{/of}}
+      {{/each}}
+      <span class="span pull-right operator">
+        <button type="submit" class="btn btn-secondary js-add">创建</button>
+        <a href="javascript:void(0);" class="btn btn-info js-clear">重置</a>
+      </span>
+    </fieldset>
+  </form>
+</div>
+
+<div class="block">
+  <form class="form form-aligned date-filter-form">
+    <fieldset>
+      <span class="control-group">
+        <label for="">id</label>
+        <input class="" type="text" name="id" value="{{left}}id{{right}}" place1holder=""/>
+      </span>
+      {{#each fields}}{{#equal type "Integer"}}<span class="control-group">
+        <label for="{{property}}">{{property}}</label>
+        <input class="{{property}}" type="text" name="{{property}}" value="{{left}}{{property}}{{right}}" placeholder=""/>
+      </span>{{/equal}}
+      {{/each}}
+
+      <span class="span pull-right operator">
+          <button type="submit" class="btn btn-secondary btn-filter">筛选</button>
+          <a href="javascript:void(0);" class="btn btn-info js-clear">重置</a>
+      </span>
+    </fieldset>
+  </form>
+</div>

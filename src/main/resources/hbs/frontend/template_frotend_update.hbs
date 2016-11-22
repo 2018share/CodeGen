@@ -1,0 +1,22 @@
+{{left}}#with data{{right}}
+<div class="modal">
+  <div class="modal-header">
+    <h2>更新字段</h2>
+  </div>
+  <form class="form data-update-form" data-id={{left}}id{{right}}>
+    <fieldset>
+      <div class="modal-dialog">
+        {{#each fields}}{{#of property "createdAt,updatedAt"}}{{else}}<span>
+          <label for="{{property}}">{{left}}i18n "{{propertyUpperFirst}}" bundle="{{bundle}}"{{right}}</label>
+          <input id="{{property}}" type="text" name="{{property}}" value={{left}}{{property}}{{right}}></input>
+        </span>{{/of}}
+        {{/each}}
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-info close">关闭</button>
+        <button type="submit" class="btn btn-success js-update">保存</button>
+      </div>
+    </fieldset>
+  </form>
+</div>
+{{left}}/with{{right}}

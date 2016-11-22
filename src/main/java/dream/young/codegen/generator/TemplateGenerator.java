@@ -59,10 +59,32 @@ public class TemplateGenerator implements CommandLineRunner {
         Template testBaseWeb = templateHelper.compile(hbsBackPath("test-BaseWeb"));
         Template testController = templateHelper.compile(hbsBackPath("test-Controller"));
 
-        // TODO: 2016/11/20 frontend  template
+        //frontend  template
+        Template regExp = templateHelper.compile(hbsFrontPath("regExp"));
+        Template template_backend_context = templateHelper.compile(hbsFrontPath("template_backend_context"));
+        Template template_backend_operator = templateHelper.compile(hbsFrontPath("template_backend_operator"));
+        Template template_frotend_update = templateHelper.compile(hbsFrontPath("template_frotend_update"));
+        Template view_coffee = templateHelper.compile(hbsFrontPath("view_coffee"));
+        Template view_hbs = templateHelper.compile(hbsFrontPath("view_hbs"));
+        Template view_scss = templateHelper.compile(hbsFrontPath("view_scss"));
+        Template yaml_config_back = templateHelper.compile(hbsFrontPath("yaml_config_back"));
+        Template yaml_config_front = templateHelper.compile(hbsFrontPath("yaml_config_front"));
+        Template yaml_locale_enUS = templateHelper.compile(hbsFrontPath("yaml_locale_enUS"));
+        Template yaml_locale_zhCN = templateHelper.compile(hbsFrontPath("yaml_locale_zhCN"));
 
         for (Table table : jdbcHelper.getTables()) {
             generateTemplate(Lists.newArrayList(
+                    new Templater(regExp, tableFrontBath(table, "regExp.es6")),
+                    new Templater(template_backend_context, tableFrontBath(table, "unit_context.hbs")),
+                    new Templater(template_backend_operator, tableFrontBath(table, "unit_operator.hbs")),
+                    new Templater(template_frotend_update, tableFrontBath(table, "update.hbs")),
+                    new Templater(view_coffee, tableFrontBath(table, "view.coffee")),
+                    new Templater(view_hbs, tableFrontBath(table, "view.hbs")),
+                    new Templater(view_scss, tableFrontBath(table, "view.scss")),
+                    new Templater(yaml_config_back, tableFrontBath(table, "back_config.yaml")),
+                    new Templater(yaml_config_front, tableFrontBath(table, "front_config.yaml")),
+                    new Templater(yaml_locale_enUS, tableFrontBath(table, "en_US.yaml")),
+                    new Templater(yaml_locale_zhCN, tableFrontBath(table, "zh_CN.yaml")),
                     new Templater(messages, tableBackBath(table, "messages_zh_CN.properties")),
                     new Templater(testController, tableTestBackBath(table, table.getClassName() + "sTest.java")),
                     new Templater(testBaseWeb, tableTestBackBath(table, "BaseWebTest.java")),

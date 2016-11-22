@@ -1,0 +1,24 @@
+<table class="table table-horizontal left-text">
+  <tbody>
+  <tr>
+    <th>id</th>
+    {{#each fields}}<th>{{left}}i18n "{{propertyUpperFirst}}" bundle="{{bundle}}"{{right}}</th>
+    {{/each}}
+    <th>{{left}}i18n "Operator" bundle="demo"{{right}}</th>
+  </tr>
+  {{left}}#each data{{right}}
+  <tr class="data-row" data-info={{left}}json this{{right}}>
+    <td class="data-value">{{left}}id{{right}}</td>
+    {{#each fields}}<td class="data-value" data-{{property}}={{left}}{{property}}{{right}}>{{left}}{{property}}{{right}}</td>
+    {{/each}}
+    <td class="data-operator">
+      <a href="javascript:void(0);" class="unit-operater js-edit">编辑</a>
+      <a href="javascript:void(0);" class="unit-operater js-del" data-id={{left}}id{{right}}>删除</a>
+    </td>
+  </tr>
+  {{left}}/each{{right}}
+  </tbody>
+  <tfoot>
+  </tfoot>
+</table>
+<div class="table-pagination" id="js-list-pagination" data-total="{{left}}total{{right}}"></div>
