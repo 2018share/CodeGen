@@ -59,6 +59,14 @@
         WHERE id = #{id}
     </select>
 
+    <select id="findByIds" parameterType="list" resultMap="{{className}}Map" >
+        SELECT <include refid="cols_all" /> FROM <include refid="tb" />
+        WHERE id IN
+        <foreach collection="list" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </select>
+
     <update id="update" parameterType="{{className}}">
         UPDATE <include refid="tb"/>
         <set>
@@ -72,6 +80,14 @@
     <delete id="delete" parameterType="long">
         DELETE FROM <include refid="tb"/>
         WHERE id = #{id}
+    </delete>
+
+    <delete id="deletes" parameterType="list">
+        DELETE FROM <include refid="tb"/>
+        WHERE id IN
+        <foreach collection="list" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
     </delete>
 
     <select id="list" parameterType="map" resultMap="{{className}}Map">
