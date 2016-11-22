@@ -35,6 +35,12 @@ public class JdbcHelper {
     @Value("${projectPrefix:}")
     private String projectPrefix;
 
+    @Value("${packagePath:io.terminus}")
+    private String packagePath;
+
+    @Value("${bundle:terminus}")
+    private String bundle;
+
     private List<Table> tables = Lists.newArrayList();
 
     private final JdbcTemplate jdbcTemplate;
@@ -89,6 +95,8 @@ public class JdbcHelper {
             }));
 
             table.setCreateSql(createSql);
+            table.setPackagePath(packagePath);
+            table.setBundle(bundle);
             return table;
         } catch (Exception e) {
             log.error("get table info fail, tableName:{}, cause:{}", tableName, Throwables.getStackTraceAsString(e));

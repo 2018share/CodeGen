@@ -9,6 +9,7 @@ import dream.young.codegen.helper.JdbcHelper;
 import dream.young.codegen.helper.TemplateHelper;
 import dream.young.codegen.model.Table;
 import dream.young.codegen.model.Templater;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,8 @@ public class TemplateGenerator implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        log.info("CodeGen START!, now: {}", DateTime.now());
+
         //backend service template
         Template mapper = templateHelper.compile(hbsBackPath("Mapper"));
         Template java = templateHelper.compile(hbsBackPath("Model"));
@@ -60,7 +63,6 @@ public class TemplateGenerator implements CommandLineRunner {
         Template testController = templateHelper.compile(hbsBackPath("test-Controller"));
 
         //frontend  template
-        Template regExp = templateHelper.compile(hbsFrontPath("regExp"));
         Template template_backend_context = templateHelper.compile(hbsFrontPath("template_backend_context"));
         Template template_backend_operator = templateHelper.compile(hbsFrontPath("template_backend_operator"));
         Template template_frotend_update = templateHelper.compile(hbsFrontPath("template_frotend_update"));
@@ -74,23 +76,23 @@ public class TemplateGenerator implements CommandLineRunner {
 
         for (Table table : jdbcHelper.getTables()) {
             generateTemplate(Lists.newArrayList(
-                    new Templater(regExp, tableFrontBath(table, "regExp.es6")),
-                    new Templater(template_backend_context, tableFrontBath(table, "unit_context.hbs")),
-                    new Templater(template_backend_operator, tableFrontBath(table, "unit_operator.hbs")),
-                    new Templater(template_frotend_update, tableFrontBath(table, "update.hbs")),
+                    new Templater(template_backend_context, tableFrontBackendBath(table, "unit_context.hbs")),
+                    new Templater(template_backend_operator, tableFrontBackendBath(table, "unit_operator.hbs")),
+                    new Templater(template_frotend_update, tableFrontFrontendBath(table, "update.hbs")),
                     new Templater(view_coffee, tableFrontBath(table, "view.coffee")),
                     new Templater(view_hbs, tableFrontBath(table, "view.hbs")),
                     new Templater(view_scss, tableFrontBath(table, "view.scss")),
-                    new Templater(yaml_config_back, tableFrontBath(table, "back_config.yaml")),
-                    new Templater(yaml_config_front, tableFrontBath(table, "front_config.yaml")),
-                    new Templater(yaml_locale_enUS, tableFrontBath(table, "en_US.yaml")),
-                    new Templater(yaml_locale_zhCN, tableFrontBath(table, "zh_CN.yaml")),
+                    new Templater(yaml_config_back, tableFrontResourceBath(table, "back_config.yaml")),
+                    new Templater(yaml_config_front, tableFrontResourceBath(table, "front_config.yaml")),
+                    new Templater(yaml_locale_enUS, tableFrontLocaleBath(table, "en_US.yaml")),
+                    new Templater(yaml_locale_zhCN, tableFrontLocaleBath(table, "zh_CN.yaml")),
+
                     new Templater(messages, tableBackBath(table, "messages_zh_CN.properties")),
-                    new Templater(testController, tableTestBackBath(table, table.getClassName() + "sTest.java")),
-                    new Templater(testBaseWeb, tableTestBackBath(table, "BaseWebTest.java")),
-                    new Templater(testService, tableTestBackBath(table, table.getClassName() + "ServiceTest.java")),
-                    new Templater(testDao,tableTestBackBath(table,  table.getClassName() + "DaoTest.java")),
-                    new Templater(testSchema,tableTestBackBath(table, "schema.sql")),
+                    new Templater(testController, tableBackTestBath(table, table.getClassName() + "sTest.java")),
+                    new Templater(testBaseWeb, tableBackTestBath(table, "BaseWebTest.java")),
+                    new Templater(testService, tableBackTestBath(table, table.getClassName() + "ServiceTest.java")),
+                    new Templater(testDao,tableBackTestBath(table,  table.getClassName() + "DaoTest.java")),
+                    new Templater(testSchema,tableBackTestBath(table, "schema.sql")),
                     new Templater(mapper, tableBackBath(table, table.getClassLowerFirst() + "Mapper.xml")),
                     new Templater(java, tableBackBath(table, table.getClassName() + ".java")),
                     new Templater(dao, tableBackBath(table, table.getClassName() + "Dao.java")),
@@ -101,6 +103,7 @@ public class TemplateGenerator implements CommandLineRunner {
                     new Templater(controller, tableBackBath(table, table.getClassName() + "s.java"))
             ), table);
         }
+        log.info("CodeGen OK!, now:{}", DateTime.now());
     }
 
     private void generateTemplate(List<Templater> templaters, Table table) {
@@ -127,11 +130,27 @@ public class TemplateGenerator implements CommandLineRunner {
         return table.getTableName() + "/backend/" + fileName;
     }
 
-    private static String tableTestBackBath(Table table, String fileName) {
+    private static String tableBackTestBath(Table table, String fileName) {
         return table.getTableName() + "/backend/test/" + fileName;
     }
 
     private static String tableFrontBath(Table table, String fileName) {
-        return table.getTableName() + "/frontend/" + fileName;
+        return table.getTableName() + "/frontend/" + table.getBundle() + "/" + fileName;
+    }
+
+    private static String tableFrontBackendBath(Table table, String fileName) {
+        return table.getTableName() + "/frontend/" + table.getBundle() + "/backend_templates/" + fileName;
+    }
+
+    private static String tableFrontFrontendBath(Table table, String fileName) {
+        return table.getTableName() + "/frontend/" + table.getBundle() + "/frontend_templates/" + fileName;
+    }
+
+    private static String tableFrontResourceBath(Table table, String fileName) {
+        return table.getTableName() + "/frontend/resources/" + fileName;
+    }
+
+    private static String tableFrontLocaleBath(Table table, String fileName) {
+        return table.getTableName() + "/frontend/" + table.getBundle() + "/locales/" + fileName;
     }
 }

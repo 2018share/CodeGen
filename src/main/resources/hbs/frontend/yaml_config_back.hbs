@@ -10,6 +10,6 @@ get{{paramUpperFirst}}:
     - key: 'id'
       desc: '主键id'
     {{#each fields}}{{#equal type "Integer"}}- key: '{{property}}'
-    desc: '{{comment}}'{{/equal}}
+      desc: '{{comment}}'{{/equal}}
     {{/each}}
   response: '如果调用成功，返回Paging<{{paramUpperFirst}}>'

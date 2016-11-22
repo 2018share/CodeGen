@@ -4,7 +4,7 @@
     <th>id</th>
     {{#each fields}}<th>{{left}}i18n "{{propertyUpperFirst}}" bundle="{{bundle}}"{{right}}</th>
     {{/each}}
-    <th>{{left}}i18n "Operator" bundle="demo"{{right}}</th>
+    <th>{{left}}i18n "Operator" bundle="{{bundle}}"{{right}}</th>
   </tr>
   {{left}}#each data{{right}}
   <tr class="data-row" data-info={{left}}json this{{right}}>

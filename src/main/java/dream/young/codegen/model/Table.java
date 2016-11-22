@@ -28,6 +28,26 @@ public class Table implements Serializable {
 
     private String createSql;    //建表语句
 
+    private String packagePath;  //后端包路径
+
+    private String bundle;       //前端bundle
+
+    public String getPackagePath() {
+        return packagePath;
+    }
+
+    public void setPackagePath(String packagePath) {
+        this.packagePath = packagePath;
+    }
+
+    public String getBundle() {
+        return bundle;
+    }
+
+    public void setBundle(String bundle) {
+        this.bundle = bundle;
+    }
+
     public String getTableName() {
         return tableName;
     }

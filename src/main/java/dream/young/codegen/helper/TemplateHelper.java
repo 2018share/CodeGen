@@ -10,7 +10,6 @@ import com.google.common.base.Strings;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -28,12 +27,6 @@ import java.util.List;
 @Component
 public class TemplateHelper {
 
-    @Value("${packagePath:io.terminus}")
-    private String packagePath;
-
-    @Value("${bundle:terminus}")
-    private String bundle;
-
     private final Handlebars handlebars = new Handlebars();
 
     private static final DateTimeFormatter DTF = DateTimeFormat.forPattern("yyyy-MM-dd");
@@ -44,18 +37,6 @@ public class TemplateHelper {
             @Override
             public CharSequence apply(Object o, Options options) throws IOException {
                 return DateTime.now().toString(DTF);
-            }
-        });
-        handlebars.registerHelper("packagePath", new Helper<Object>() {
-            @Override
-            public CharSequence apply(Object o, Options options) throws IOException {
-                return packagePath;
-            }
-        });
-        handlebars.registerHelper("bundle", new Helper<Object>() {
-            @Override
-            public CharSequence apply(Object o, Options options) throws IOException {
-                return bundle;
             }
         });
 
