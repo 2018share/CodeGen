@@ -1,15 +1,15 @@
-get{{paramUpperFirst}}:
-  desc: '{{comment}}分页查询'
-  type: 'http'
-  url: '/api/{{param}}/paging'
-  query:
-    - key: 'pageNo'
-      desc: '页码, 非必传, 默认1'
-    - key: size:pageSize
-      desc: '每页大小, 非必传，默认20'
-    - key: 'id'
-      desc: '主键id'
-    {{#each fields}}{{#equal type "Integer"}}- key: '{{property}}'
-      desc: '{{comment}}'{{/equal}}
-    {{/each}}
-  response: '如果调用成功，返回Paging<{{paramUpperFirst}}>'
+  get{{paramUpperFirst}}:
+    desc: '{{comment}}分页查询'
+    type: 'http'
+    url: '/api/{{param}}/paging'
+    query:
+      - key: 'pageNo'
+        desc: '页码, 非必传, 默认1'
+      - key: 'size'
+        desc: '每页大小, 非必传，默认20'
+      - key: 'id'
+        desc: '主键id'
+      {{#each fields}}{{#equal type "Integer"}}- key: '{{property}}'
+        desc: '{{comment}}'{{/equal}}
+      {{/each}}
+    response: '如果调用成功，返回Paging<{{paramUpperFirst}}>'
