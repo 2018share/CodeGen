@@ -135,22 +135,22 @@ public class TemplateGenerator implements CommandLineRunner {
     }
 
     private static String tableFrontBath(Table table, String fileName) {
-        return table.getTableName() + "/frontend/" + table.getBundle() + "/" + fileName;
+        return table.getTableName() + "/frontend/" + table.getBundle() + "/" + table.getParamName() + "/" + fileName;
     }
 
     private static String tableFrontBackendBath(Table table, String fileName) {
-        return table.getTableName() + "/frontend/" + table.getBundle() + "/backend_templates/" + fileName;
+        return table.getTableName() + "/frontend/" + table.getBundle() + "/" + table.getParamName() + "/backend_templates/" + fileName;
     }
 
     private static String tableFrontFrontendBath(Table table, String fileName) {
-        return table.getTableName() + "/frontend/" + table.getBundle() + "/frontend_templates/" + fileName;
+        return table.getTableName() + "/frontend/" + table.getBundle() + "/" + table.getParamName() + "/frontend_templates/" + fileName;
     }
 
     private static String tableFrontResourceBath(Table table, String fileName) {
-        return table.getTableName() + "/frontend/resources/" + fileName;
+        return table.getTableName() + "/frontend/" + table.getBundle() + "/resources/" + fileName;
     }
 
     private static String tableFrontLocaleBath(Table table, String fileName) {
-        return table.getTableName() + "/frontend/" + table.getBundle() + "/locales/" + fileName;
+        return table.getTableName() + "/frontend/" + table.getBundle() + "/" + table.getParamName() + "/locales/" + fileName;
     }
 }

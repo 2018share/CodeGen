@@ -9,7 +9,6 @@ class ModelManage
 
   bindEvent: ()->
     $('.date-create-form').on "submit", @addDataUnit
-    $('.data-filter-form').on "submit", @findDataList
     $('.data-update-form').on "submit", @updateDateUnit
     $('.js-del').on "click", @delDataUnit
     $('.js-edit').on "click", @editDataUnit
@@ -65,18 +64,6 @@ class ModelManage
       data: JSON.stringify(dataUnit)
       success: (data) =>
         window.location.reload()
-
-  findDataList: (evt) =>
-    evt.preventDefault()
-    $form = $(evt.currentTarget)
-    dataUnit = $form.serializeObject()
-    url = "api/{{paramName}}/id?{{paramName}}Id=" + dataUnit.id
-
-    $.ajax
-      url: url
-      type: "GET"
-      success: (data) =>
-        window.location.reload
 
   editDataUnit: (evt) =>
     info = $(evt.currentTarget).closest("tr").data("info")
