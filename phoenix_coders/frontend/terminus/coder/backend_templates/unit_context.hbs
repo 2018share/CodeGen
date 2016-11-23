@@ -1,0 +1,34 @@
+{{#with _DATA_}}
+<table class="table table-horizontal left-text">
+  <tbody>
+  <tr>
+    <th>id</th>
+    <th>{{i18n "Name" bundle="terminus"}}</th>
+    <th>{{i18n "Mobile" bundle="terminus"}}</th>
+    <th>{{i18n "Type" bundle="terminus"}}</th>
+    <th>{{i18n "CreatedAt" bundle="terminus"}}</th>
+    <th>{{i18n "UpdatedAt" bundle="terminus"}}</th>
+    
+    <th>{{i18n "Operator" bundle="terminus"}}</th>
+  </tr>
+  {{#each data}}
+  <tr class="data-row" data-info={{json this}}>
+    <td class="data-value">{{id}}</td>
+    <td class="data-value" data-name={{name}}>{{name}}</td>
+    <td class="data-value" data-mobile={{mobile}}>{{mobile}}</td>
+    <td class="data-value" data-type={{type}}>{{type}}</td>
+    <td class="data-value" data-createdAt={{createdAt}}>{{createdAt}}</td>
+    <td class="data-value" data-updatedAt={{updatedAt}}>{{updatedAt}}</td>
+    
+    <td class="data-operator">
+      <a href="javascript:void(0);" class="unit-operater js-edit">编辑</a>
+      <a href="javascript:void(0);" class="unit-operater js-del" data-id={{id}}>删除</a>
+    </td>
+  </tr>
+  {{/each}}
+  </tbody>
+  <tfoot>
+  </tfoot>
+</table>
+<div class="table-pagination" id="js-list-pagination" data-total="{{total}}"></div>
+{{/with}}

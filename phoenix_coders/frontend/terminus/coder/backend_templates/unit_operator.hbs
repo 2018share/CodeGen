@@ -1,0 +1,51 @@
+<div class="data-operator block">
+  <form class="form form-aligned date-create-form">
+    <fieldset>
+      <span class="control-group">
+        <label for="name">{{i18n "Name" bundle="terminus"}}</label>
+        <input class="js-need-validated" type="text" name="name"  placeholder="请输入姓名" pattern="^.{1,7}$">
+      </span>
+      <span class="control-group">
+        <label for="mobile">{{i18n "Mobile" bundle="terminus"}}</label>
+        <input class="js-need-validated" type="text" name="mobile"  placeholder="请输入手机号" pattern="^.{1,7}$">
+      </span>
+      <span class="control-group">
+        <label for="type">{{i18n "Type" bundle="terminus"}}</label>
+        <input class="js-need-validated" type="text" name="type"  placeholder="请输入程序员类型" pattern="^.{1,7}$">
+      </span>
+      
+      
+      
+      <span class="span pull-right operator">
+        <button type="submit" class="btn btn-secondary js-add">创建</button>
+        <a href="javascript:void(0);" class="btn btn-info js-clear">重置</a>
+      </span>
+    </fieldset>
+  </form>
+</div>
+
+<div class="block">
+  <form class="form form-aligned date-filter-form">
+    <input type="hidden" name="pageSize" value="{{pageSize}}" />
+    <fieldset>
+      <span class="control-group">
+        <label for="">id</label>
+        <input class="" type="text" name="id" value="{{id}}" placeholder=""/>
+      </span>
+      
+      
+      <span class="control-group">
+        <label for="type">type</label>
+        <input class="type" type="text" name="type" value="{{type}}" placeholder=""/>
+      </span>
+      
+      
+      
+
+      <span class="span pull-right operator">
+          <button type="submit" class="btn btn-secondary btn-filter">筛选</button>
+          <a href="javascript:void(0);" class="btn btn-info js-clear">重置</a>
+      </span>
+    </fieldset>
+  </form>
+</div>

@@ -1,0 +1,19 @@
+  getCoder:
+    desc: '程序员表分页查询'
+    type: 'http'
+    url: '/api//paging'
+    query:
+      - key: 'pageNo'
+        desc: '页码, 非必传, 默认1'
+      - key: 'size'
+        desc: '每页大小, 非必传，默认20'
+      - key: 'id'
+        desc: '主键id'
+      
+      
+      - key: 'type'
+        desc: '程序员类型'
+      
+      
+      
+    response: '如果调用成功，返回Paging<Coder>'

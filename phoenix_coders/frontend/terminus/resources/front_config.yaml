@@ -1,0 +1,4 @@
+  "terminus/coder":
+    category: "ADMIN"
+    name: "程序员表分页查询"
+    service: "getCoder"
