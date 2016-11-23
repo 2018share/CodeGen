@@ -8,9 +8,9 @@ class ModelManage
     @bindEvent()
 
   bindEvent: ()->
-    $('.date-create-form').on "submit", @addDataUnit
+    $('.data-create-form').on "submit", @addDataUnit
     $('.data-update-form').on "submit", @updateDateUnit
-    $('.js-del').on "click", @delDataUnit
+    $('.js-del').on "click", @delModal
     $('.js-edit').on "click", @editDataUnit
     $('.js-update').on "click", @updateDateUnit
     $('.js-clear').on "click", @clearValue
@@ -39,17 +39,24 @@ class ModelManage
       success: (data) =>
         window.location.href = "/{{bundle}}"
 
-  delDataUnit: (evt) =>
-    $self = $(evt.currentTarget)
-    $el = $self.closest("tr")
-    url = "/api/{{paramName}}/delete?{{paramName}}Id=" + $self.data("id")
-
+  delDataUnit: ($data) =>
+    $el = $data.closest("tr")
+    url = "/api/{{paramName}}/delete?{{paramName}}Id=" + $data.data("id")
     $.ajax
       url: url
       type: "POST"
       success: (data) =>
         $el.remove()
-        window.location.reload()
+
+  delModal: (evt) =>
+    $self = $(evt.currentTarget)
+    new Modal
+      "icon": "info",
+      "title": "确认删除",
+      "isConfirm": true,
+      "overlay": true,
+      "content": "是否确认删除整个规格分组？"
+    .show => @delDataUnit($self)
 
   updateDateUnit: (evt) =>
     evt.preventDefault()

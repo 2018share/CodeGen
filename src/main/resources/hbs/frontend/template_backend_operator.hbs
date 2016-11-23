@@ -1,9 +1,9 @@
 <div class="data-operator block">
-  <form class="form form-aligned date-create-form">
+  <form class="form form-aligned data-create-form">
     <fieldset>
       {{#each fields}}{{#of property "createdAt,updatedAt"}}{{else}}<span class="control-group">
         <label for="{{property}}">{{left}}i18n "{{propertyUpperFirst}}" bundle="{{bundle}}"{{right}}</label>
-        <input class="js-need-validated" type="text" name="{{property}}"  placeholder="请输入{{comment}}" pattern="^.{1,7}$">
+        <input class="" type="text" name="{{property}}"  placeholder="请输入{{comment}}" >
       </span>{{/of}}
       {{/each}}
       <span class="span pull-right operator">
@@ -15,7 +15,7 @@
 </div>
 
 <div class="block">
-  <form class="form form-aligned date-filter-form">
+  <form class="form form-aligned data-filter-form">
     <input type="hidden" name="pageSize" value="{{left}}pageSize{{right}}" />
     <fieldset>
       <span class="control-group">
