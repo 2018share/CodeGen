@@ -13,3 +13,6 @@ projectPrefix: parana
 
 # 包前缀，比如 io.terminus.parana.item, 用于import路径的替换，默认 io.terminus
 packagePath: io.terminus
+
+# 前台bundle，默认 terminus
+bundle: terminus
