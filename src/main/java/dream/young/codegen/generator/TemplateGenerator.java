@@ -1,5 +1,6 @@
 package dream.young.codegen.generator;
 
+import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
@@ -18,6 +19,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import static org.springframework.util.CollectionUtils.isEmpty;
@@ -139,7 +141,7 @@ public class TemplateGenerator implements CommandLineRunner {
             try {
                 Templater templater = new Templater();
                 templater.setFileName(tableRootBath(table, custom.getFileName()));
-                templater.setTemplate(templateHelper.compile(subHbs(custom.getFromHbs())));
+                templater.setTemplate(templateHelper.compileInline(Files.toString(new File(appendHbs(custom.getFromHbs())), Charsets.UTF_8)));
                 templaters.add(templater);
             } catch (Exception e) {
                 log.error("get custom templates failed, customTemplates:{}, cause:{}",
@@ -149,9 +151,9 @@ public class TemplateGenerator implements CommandLineRunner {
         return templaters;
     }
 
-    private static String subHbs(String hbs) {
-        if (hbs.endsWith(".hbs")) {
-            return hbs.substring(0, hbs.length() - 4);
+    private static String appendHbs(String hbs) {
+        if (!hbs.endsWith(".hbs")) {
+            return hbs + ".hbs";
         }
         return hbs;
     }

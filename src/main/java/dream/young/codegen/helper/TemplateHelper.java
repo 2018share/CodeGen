@@ -131,4 +131,8 @@ public class TemplateHelper {
     public Template compile(String location) throws IOException {
         return handlebars.compile(location);
     }
+
+    public Template compileInline(String input) throws IOException {
+        return handlebars.compileInline(input);
+    }
 }
