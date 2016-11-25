@@ -16,13 +16,14 @@ import java.io.PrintStream;
 @SpringBootApplication
 public class CodeGenApplication {
 
-    public static final String BANNER = "▄█▄    ████▄ ██▄   ▄███▄     ▄▀  ▄███▄      ▄   \n" +
-            "█▀ ▀▄  █   █ █  █  █▀   ▀  ▄▀    █▀   ▀      █  \n" +
-            "█   ▀  █   █ █   █ ██▄▄    █ ▀▄  ██▄▄    ██   █ \n" +
-            "█▄  ▄▀ ▀████ █  █  █▄   ▄▀ █   █ █▄   ▄▀ █ █  █ \n" +
-            "▀███▀        ███▀  ▀███▀    ███  ▀███▀   █  █ █ \n" +
-            "                                         █   ██ \n" +
-            "                                                \n";
+    public static final String BANNER = "   _____          _       _____            \n" +
+            "  / ____|        | |     / ____|           \n" +
+            " | |     ___   __| | ___| |  __  ___ _ __  \n" +
+            " | |    / _ \\ / _` |/ _ \\ | |_ |/ _ \\ '_ \\ \n" +
+            " | |___| (_) | (_| |  __/ |__| |  __/ | | |\n" +
+            "  \\_____\\___/ \\__,_|\\___|\\_____|\\___|_| |_|\n" +
+            "                                           \n" +
+            "                                           \n";
 
     public static void main(String[] args) {
         SpringApplication application = new SpringApplication(CodeGenApplication.class);
