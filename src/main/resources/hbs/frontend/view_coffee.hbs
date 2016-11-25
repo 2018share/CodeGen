@@ -5,6 +5,10 @@ updateTemplate = Handlebars.templates["{{bundle}}/{{paramName}}/frontend_templat
 
 class ModelManage
   constructor: ($)->
+    @$createForm = $('.data-create-form')
+    @$createForm.validator
+      identifier: "input"
+      isErrorOnParent: true
     @bindEvent()
 
   bindEvent: ()->
@@ -25,7 +29,7 @@ class ModelManage
     evt.preventDefault()
     $form = $(evt.currentTarget)
     $form.validator({
-      identifier: "input.js-need-validated",
+      identifier: "input",
       isErrorOnParent: true,
     })
 
@@ -77,6 +81,7 @@ class ModelManage
     new Modal(updateTemplate({data: info})).show()
     $(".data-update-form").on "submit", @updateDateUnit
     $(".data-update-form").validator
+      identifier: "input",
       isErrorOnParent: true
 
   clearValue: (evt) =>

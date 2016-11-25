@@ -2,7 +2,7 @@
   <form class="form form-aligned data-create-form">
     <fieldset>
       {{#each fields}}{{#of property "createdAt,updatedAt"}}{{else}}<span class="control-group">
-        <label for="{{property}}">{{left}}i18n "{{propertyUpperFirst}}" bundle="{{bundle}}"{{right}}</label>
+        <label for="control-label {{property}}">{{left}}i18n "{{propertyUpperFirst}}" bundle="{{bundle}}"{{right}}</label>
         <input class="" type="text" name="{{property}}"  placeholder="请输入{{comment}}" >
       </span>{{/of}}
       {{/each}}
