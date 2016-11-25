@@ -139,7 +139,7 @@ public class TemplateGenerator implements CommandLineRunner {
             try {
                 Templater templater = new Templater();
                 templater.setFileName(tableRootBath(table, custom.getFileName()));
-                templater.setTemplate(templateHelper.compile(custom.getFromHbs()));
+                templater.setTemplate(templateHelper.compile(subHbs(custom.getFromHbs())));
                 templaters.add(templater);
             } catch (Exception e) {
                 log.error("get custom templates failed, customTemplates:{}, cause:{}",
@@ -147,6 +147,13 @@ public class TemplateGenerator implements CommandLineRunner {
             }
         }
         return templaters;
+    }
+
+    private static String subHbs(String hbs) {
+        if (hbs.endsWith(".hbs")) {
+            return hbs.substring(0, hbs.length() - 4);
+        }
+        return hbs;
     }
 
     private static String hbsBackPath(String path) {
