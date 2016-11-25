@@ -17,7 +17,7 @@ packagePath: io.terminus
 # 前台bundle，默认 terminus
 bundle: terminus
 
-# 自定义模板配置：fromHbs：自定义的hbs文件路径，fileName：生成的文件名称
+# 自定义模板配置：fromHbs：自定义的hbs文件绝对路径，fileName：生成的文件名称
 custom.templates:
   other:
     fromHbs: yourHbsAbsolutePath
