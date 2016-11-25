@@ -5,6 +5,7 @@ import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.google.common.io.Files;
+import dream.young.codegen.CustomTemplates;
 import dream.young.codegen.helper.JdbcHelper;
 import dream.young.codegen.helper.TemplateHelper;
 import dream.young.codegen.model.Table;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.List;
+
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 /**
  * Desc: 模板生成类
@@ -34,10 +37,13 @@ public class TemplateGenerator implements CommandLineRunner {
 
     private final TemplateHelper templateHelper;
 
+    private final CustomTemplates customTemplates;
+
     @Autowired
-    public TemplateGenerator(JdbcHelper jdbcHelper, TemplateHelper templateHelper) {
+    public TemplateGenerator(JdbcHelper jdbcHelper, TemplateHelper templateHelper, CustomTemplates customTemplates) {
         this.jdbcHelper = jdbcHelper;
         this.templateHelper = templateHelper;
+        this.customTemplates = customTemplates;
     }
 
     @Override
@@ -62,7 +68,7 @@ public class TemplateGenerator implements CommandLineRunner {
         Template testBaseWeb = templateHelper.compile(hbsBackPath("test-BaseWeb"));
         Template testController = templateHelper.compile(hbsBackPath("test-Controller"));
 
-        //frontend  template
+        //frontend template
         Template template_backend_context = templateHelper.compile(hbsFrontPath("template_backend_context"));
         Template template_backend_operator = templateHelper.compile(hbsFrontPath("template_backend_operator"));
         Template template_frotend_update = templateHelper.compile(hbsFrontPath("template_frotend_update"));
@@ -74,8 +80,12 @@ public class TemplateGenerator implements CommandLineRunner {
         Template yaml_locale_enUS = templateHelper.compile(hbsFrontPath("yaml_locale_enUS"));
         Template yaml_locale_zhCN = templateHelper.compile(hbsFrontPath("yaml_locale_zhCN"));
 
+        //custom template
+        //List<Templater> customs = Lists.newArrayList();
+
+
         for (Table table : jdbcHelper.getTables()) {
-            generateTemplate(Lists.newArrayList(
+            List<Templater> templaters = Lists.newArrayList(
                     new Templater(template_backend_context, tableFrontBackendBath(table, "unit_context.hbs")),
                     new Templater(template_backend_operator, tableFrontBackendBath(table, "unit_operator.hbs")),
                     new Templater(template_frotend_update, tableFrontFrontendBath(table, "update.hbs")),
@@ -101,7 +111,9 @@ public class TemplateGenerator implements CommandLineRunner {
                     new Templater(writeService, tableBackBath(table, table.getClassName() + "WriteService.java")),
                     new Templater(writeImpl, tableBackBath(table, table.getClassName() + "WriteServiceImpl.java")),
                     new Templater(controller, tableBackBath(table, table.getClassName() + "s.java"))
-            ), table);
+            );
+            templaters.addAll(getCustomTemplates(table));
+            generateTemplate(templaters, table);
         }
         log.info("CodeGen OK!, now:{}", DateTime.now());
     }
@@ -118,12 +130,35 @@ public class TemplateGenerator implements CommandLineRunner {
         }
     }
 
+    private List<Templater> getCustomTemplates(Table table) {
+        List<Templater> templaters = Lists.newArrayList();
+        if (customTemplates == null || isEmpty(customTemplates.getTemplates())) {
+            return templaters;
+        }
+        for (CustomTemplates.CustomTemplate custom : customTemplates.getTemplates().values()) {
+            try {
+                Templater templater = new Templater();
+                templater.setFileName(tableRootBath(table, custom.getFileName()));
+                templater.setTemplate(templateHelper.compile(custom.getFromHbs()));
+                templaters.add(templater);
+            } catch (Exception e) {
+                log.error("get custom templates failed, customTemplates:{}, cause:{}",
+                        customTemplates.getTemplates(), Throwables.getStackTraceAsString(e));
+            }
+        }
+        return templaters;
+    }
+
     private static String hbsBackPath(String path) {
         return "/hbs/backend/" + path;
     }
 
     private static String hbsFrontPath(String path) {
         return "/hbs/frontend/" + path;
+    }
+
+    private static String tableRootBath(Table table, String fileName) {
+        return table.getTableName() + "/" + fileName;
     }
 
     private static String tableBackBath(Table table, String fileName) {

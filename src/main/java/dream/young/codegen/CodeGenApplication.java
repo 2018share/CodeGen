@@ -3,6 +3,7 @@ package dream.young.codegen;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.env.Environment;
 
 import java.io.PrintStream;
@@ -13,6 +14,7 @@ import java.io.PrintStream;
  * author: DreamYoung
  * Date: 16/4/27
  */
+@EnableConfigurationProperties(CustomTemplates.class)
 @SpringBootApplication
 public class CodeGenApplication {
 
