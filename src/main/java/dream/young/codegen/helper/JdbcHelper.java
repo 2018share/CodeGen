@@ -35,6 +35,9 @@ public class JdbcHelper {
     @Value("${projectPrefix:}")
     private String projectPrefix;
 
+    @Value("${removeClassPrefix: false}")
+    private boolean removeClassPrefix;
+
     @Value("${packagePath:io.terminus}")
     private String packagePath;
 
@@ -84,7 +87,7 @@ public class JdbcHelper {
             table.setClassName(getClassName(tableName));      //类名
             table.setClassLowerFirst(CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, table.getClassName()));
             table.setComment(tableComment);    //表注释
-            table.setParamName(getParamName(table.getClassName()));  //属性名
+            table.setParamName(getParamName(tableName));  //属性名
             table.setParamUpperFirst(CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, table.getParamName()));
 
             table.setFields(Lists.transform(fieldMaps, new Function<Map<String, Object>, Field>() {
@@ -106,14 +109,23 @@ public class JdbcHelper {
 
     //表名转换为类名, 复数的情况就简单考虑吧 o(╯□╰)o
     private String getClassName(String tableName) {
+        String upperCamel = getUpperCamel(tableName);
+        if (!removeClassPrefix) {
+            return upperCamel;
+        }
+        return upperCamel.toLowerCase().startsWith(projectPrefix.toLowerCase()) ? upperCamel.substring(projectPrefix.length(), upperCamel.length()) : upperCamel;
+    }
+
+    private String getUpperCamel(String tableName) {
         String className = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, tableName);
-        className = className.toLowerCase().startsWith(projectPrefix.toLowerCase()) ? className.substring(projectPrefix.length(), className.length()) : className;
         return className.endsWith("s") ? className.substring(0, className.length() - 1) : className;
     }
 
     //类名转换为属性名, ParanaUser -> user
-    private static String getParamName(String className) {
-        return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, className);
+    private String getParamName(String tablename) {
+        String upperCamel = getUpperCamel(tablename);
+        upperCamel = upperCamel.toLowerCase().startsWith(projectPrefix.toLowerCase()) ? upperCamel.substring(projectPrefix.length(), upperCamel.length()) : upperCamel;
+        return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, upperCamel);
     }
 
     //设置字段属性
