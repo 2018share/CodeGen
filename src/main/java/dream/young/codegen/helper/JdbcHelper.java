@@ -105,14 +105,14 @@ public class JdbcHelper {
     }
 
     //表名转换为类名, 复数的情况就简单考虑吧 o(╯□╰)o
-    private static String getClassName(String tableName) {
-        String name = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, tableName);
-        return name.endsWith("s") ? name.substring(0, name.length() - 1) : name;
+    private String getClassName(String tableName) {
+        String className = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, tableName);
+        className = className.toLowerCase().startsWith(projectPrefix.toLowerCase()) ? className.substring(projectPrefix.length(), className.length()) : className;
+        return className.endsWith("s") ? className.substring(0, className.length() - 1) : className;
     }
 
     //类名转换为属性名, ParanaUser -> user
-    private String getParamName(String className) {
-        className = className.toLowerCase().startsWith(projectPrefix.toLowerCase()) ? className.substring(projectPrefix.length(), className.length()) : className;
+    private static String getParamName(String className) {
         return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, className);
     }
 

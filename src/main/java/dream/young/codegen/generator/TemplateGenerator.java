@@ -1,6 +1,5 @@
 package dream.young.codegen.generator;
 
-import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
@@ -19,7 +18,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import static org.springframework.util.CollectionUtils.isEmpty;
@@ -81,10 +79,6 @@ public class TemplateGenerator implements CommandLineRunner {
         Template yaml_config_front = templateHelper.compile(hbsFrontPath("yaml_config_front"));
         Template yaml_locale_enUS = templateHelper.compile(hbsFrontPath("yaml_locale_enUS"));
         Template yaml_locale_zhCN = templateHelper.compile(hbsFrontPath("yaml_locale_zhCN"));
-
-        //custom template
-        //List<Templater> customs = Lists.newArrayList();
-
 
         for (Table table : jdbcHelper.getTables()) {
             List<Templater> templaters = Lists.newArrayList(
